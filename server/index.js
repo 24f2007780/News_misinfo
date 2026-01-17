@@ -5,9 +5,16 @@ const mongoose = require('mongoose');
 const http = require('http');
 const socketIo = require('socket.io');
 const cron = require('node-cron');
-
-// Load environment variables
 dotenv.config();
+
+const PORT = process.env.PORT || 5001; 
+
+const mongoUri = process.env.MONGODB_URI;
+
+if (!mongoUri) {
+  console.error('❌ MONGODB_URI is missing in .env');
+  process.exit(1);
+}
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -49,73 +56,74 @@ app.use(express.urlencoded({ extended: true }));
 app.set('io', io);
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/misinformation-platform')
-.then(async () => {
-  console.log('✅ Connected to MongoDB');
-  // Seed default admin account
-  await seedDefaultAdmin();
-  // Seed sample claims
-  await seedClaims();
-  // Seed misinformation clusters with geographic data
-  await seedClusters();
-  
-  // Seed community votes for testing (only if we have users and claims)
-  try {
-    await seedCommunityVotes();
-  } catch (error) {
-    console.warn('⚠️ Community votes seeding skipped:', error.message);
-  }
-  
-  // Initialize AI Service (non-blocking)
-  try {
-    console.log('🤖 Initializing AI Service...');
-    const aiService = getAIService();
-    if (aiService.isConfigured()) {
-      console.log(`✅ AI Service ready with provider: ${aiService.getProvider()}`);
-    } else {
-      console.error('❌ AI Service not configured! Add GEMINI_API_KEY or OPENAI_API_KEY to .env');
+mongoose.connect(mongoUri)
+  .then(async () => {
+    console.log('✅ Connected to MongoDB');
+    
+    // Seed data
+    await seedDefaultAdmin();
+    await seedClaims();
+    await seedClusters();
+    
+    try {
+      await seedCommunityVotes();
+    } catch (error) {
+      console.warn('⚠️ Community votes seeding skipped:', error.message);
     }
-  } catch (error) {
-    console.error('⚠️  AI Service initialization warning:', error.message);
-    console.log('Server will continue without AI features');
-  }
-  
-  // Initialize AI agents after DB connection
-  try {
-    console.log('🚀 Starting agent initialization...');
-    const initializedAgents = initializeAgents(io);
-    console.log('✅ Agent initialization complete. Agents:', Object.keys(initializedAgents));
-  } catch (error) {
-    console.error('❌ Failed to initialize agents:', error);
-    console.error('Error stack:', error.stack);
-  }
-
-  // Initialize ML Verification Service
-  try {
-    console.log('🤖 Initializing ML Verification Service...');
-    const MLVerificationService = require('./services/MLVerificationService');
-    const mlInitialized = await MLVerificationService.initializeModels();
-    if (mlInitialized) {
-      console.log('✅ ML Verification Service initialized successfully');
-    } else {
-      console.warn('⚠️ ML Verification Service initialization failed - will use fallback methods');
+    // Initialize AI Service
+    try {
+      console.log('🤖 Initializing AI Service...');
+      const aiService = getAIService();
+      if (aiService.isConfigured()) {
+        console.log(`✅ AI Service ready with provider: ${aiService.getProvider()}`);
+      } else {
+        console.error('❌ AI Service not configured! Add GEMINI_API_KEY or OPENAI_API_KEY to .env');
+      }
+    } catch (error) {
+      console.error('⚠️ AI Service initialization warning:', error.message);
+      console.log('Server will continue without AI features');
     }
-  } catch (error) {
-    console.warn('⚠️ ML Verification Service initialization warning:', error.message);
-    console.log('Server will continue with AI and web scraping verification methods');
-  }
-  
-  // Start web scraping scheduler
-  try {
-    console.log('🕐 Starting Web Scraping Scheduler...');
-    ScrapingScheduler.start();
-    console.log('✅ Web Scraping Scheduler started successfully');
-  } catch (error) {
-    console.error('❌ Failed to start scraping scheduler:', error);
-  }
-})
-.catch(err => console.error('❌ MongoDB connection error:', err));
-
+    // Initialize AI agents
+    try {
+      console.log('🚀 Starting agent initialization...');
+      const initializedAgents = initializeAgents(io);
+      console.log('✅ Agent initialization complete. Agents:', Object.keys(initializedAgents));
+    } catch (error) {
+      console.error('❌ Failed to initialize agents:', error);
+      console.error('Error stack:', error.stack);
+    }
+    // Initialize ML Verification Service
+    try {
+      console.log('🤖 Initializing ML Verification Service...');
+      const MLVerificationService = require('./services/MLVerificationService');
+      const mlInitialized = await MLVerificationService.initializeModels();
+      if (mlInitialized) {
+        console.log('✅ ML Verification Service initialized successfully');
+      } else {
+        console.warn('⚠️ ML Verification Service initialization failed - will use fallback methods');
+      }
+    } catch (error) {
+      console.warn('⚠️ ML Verification Service initialization warning:', error.message);
+      console.log('Server will continue with AI and web scraping verification methods');
+    }
+    // Start web scraping scheduler
+    try {
+      console.log('🕐 Starting Web Scraping Scheduler...');
+      ScrapingScheduler.start();
+      console.log('✅ Web Scraping Scheduler started successfully');
+    } catch (error) {
+      console.error('❌ Failed to start scraping scheduler:', error);
+    }
+    // Start the server after all initializations
+    server.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`🌐 Client URL: http://localhost:${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('❌ MongoDB connection error:', err.message);
+    process.exit(1);
+  });
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/claims', claimRoutes);
@@ -133,6 +141,10 @@ app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'healthy', 
     timestamp: new Date().toISOString(),
+    database: {
+      mongodb: mongoStatus.status,
+      error: mongoStatus.error
+    },
     agents: AgentOrchestrator.getAgentStatus(),
     scrapingScheduler: ScrapingScheduler.getStatus()
   });

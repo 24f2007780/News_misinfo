@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: misinformation-platform
+    env: node  # Changed from python to node
+    buildCommand: |
+      npm install
+      cd client && npm install && npm run build
+    startCommand: node server/index.js  # Updated to use index.js
+    staticPublishPath: "./client/dist"
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: LINKUP_API_KEY
+        sync: false
+      - key: MONGODB_URI
+        value: "mongodb+srv://yashvi2905_db_user:${MONGO_PASSWORD}@misinfo.lp5yt9w.mongodb.net/?retryWrites=true&w=majority&appName=misinfo"
+      - key: NODE_ENV
+        value: "production"
+      - key: PORT
+        value: "10000"
