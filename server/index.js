@@ -6,12 +6,10 @@ const http = require('http');
 const socketIo = require('socket.io');
 const cron = require('node-cron');
 dotenv.config();
+const PORT = process.env.PORT || 10000;  // Server will run on port 5000
 
-const PORT = process.env.PORT || 5001; 
-
-const mongoUri = process.env.MONGODB_URI;
-
-if (!mongoUri) {
+const MONGODB_URI = process.env.MONGODB_URI;
+if (!MONGODB_URI) {
   console.error('❌ MONGODB_URI is missing in .env');
   process.exit(1);
 }
@@ -55,11 +53,44 @@ app.use(express.urlencoded({ extended: true }));
 // Make io accessible to routes
 app.set('io', io);
 
-// Database connection
-mongoose.connect(mongoUri)
-  .then(async () => {
-    console.log('✅ Connected to MongoDB');
-    
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/claims', claimRoutes);
+app.use('/api/agents', agentRoutes);
+app.use('/api/verification', verificationRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/governance', governanceRoutes);
+app.use('/api/user', userFeaturesRoutes);
+app.use('/api/community', communityRoutes);
+app.use('/api/agents/ingestor', ingestorRoutes);
+app.use('/api/admin/settings', settingsRoutes);
+
+// Health check
+app.get('/health', (req, res) => {
+  const mongoStatus = {
+    status: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    error: mongoose.connection.readyState === 1 ? null : 'Not connected to MongoDB'
+  };
+  res.status(200).json({ 
+    status: 'healthy', 
+    timestamp: new Date().toISOString(),
+    database: {
+      mongodb: mongoStatus.status,
+      error: mongoStatus.error
+    }
+  });
+});
+
+mongoose.connect(MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+  family: 4
+})
+.then(async () => {
+  console.log('✅ Connected to MongoDB');    
     // Seed data
     await seedDefaultAdmin();
     await seedClaims();
@@ -124,31 +155,6 @@ mongoose.connect(mongoUri)
     console.error('❌ MongoDB connection error:', err.message);
     process.exit(1);
   });
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/claims', claimRoutes);
-app.use('/api/agents', agentRoutes);
-app.use('/api/verification', verificationRoutes);
-app.use('/api/analytics', analyticsRoutes);
-app.use('/api/governance', governanceRoutes);
-app.use('/api/user', userFeaturesRoutes);
-app.use('/api/community', communityRoutes);
-app.use('/api/agents/ingestor', ingestorRoutes);
-app.use('/api/admin/settings', settingsRoutes);
-
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'healthy', 
-    timestamp: new Date().toISOString(),
-    database: {
-      mongodb: mongoStatus.status,
-      error: mongoStatus.error
-    },
-    agents: AgentOrchestrator.getAgentStatus(),
-    scrapingScheduler: ScrapingScheduler.getStatus()
-  });
-});
 
 // Socket.io connection handling
 io.on('connection', (socket) => {
@@ -198,16 +204,10 @@ cron.schedule('0 * * * *', async () => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('❌ Error:', err);
-  res.status(err.status || 500).json({
-    error: err.message || 'Internal server error',
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+  res.status(500).json({
+    error: 'Internal server error',
+    message: err.message
   });
-});
-
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`🌐 Client URL: ${process.env.CLIENT_URL || 'http://localhost:5173'}`);
 });
 
 module.exports = { app, io };
