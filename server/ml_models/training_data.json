@@ -1,0 +1,160 @@
+{
+  "politics_governance": {
+    "true": [
+      "The United States presidential election in 2020 had Joe Biden elected as president",
+      "Germany is a member of the European Union",
+      "The United Nations Security Council has 15 members",
+      "Canada's Prime Minister as of 2025 is Justin Trudeau",
+      "India's Goods and Services Tax (GST) was implemented in 2017"
+    ],
+    "false": [
+      "Country X spent 90% of its budget on defense last year",
+      "The UK left the EU in 2023",
+      "The United Nations has 300 member countries",
+      "France's president is elected for a 10-year term",
+      "China signed a permanent military alliance with Russia in 2024"
+    ]
+  },
+  "health_medicine": {
+    "true": [
+      "Vaccines reduce the risk of severe illness from infectious diseases",
+      "Insulin is essential for regulating blood sugar in diabetic patients",
+      "Smoking increases the risk of lung cancer",
+      "Antibiotics do not treat viral infections",
+      "Adequate hydration helps maintain kidney function"
+    ],
+    "false": [
+      "Green tea can completely cure diabetes",
+      "COVID-19 vaccines contain microchips for tracking people",
+      "Drinking bleach can cure viral infections",
+      "Eating only meat provides all essential nutrients",
+      "Antibiotics can prevent COVID-19"
+    ]
+  },
+  "environment_climate": {
+    "true": [
+      "Global average temperatures have risen by about 1.2°C since pre-industrial times",
+      "Deforestation contributes to biodiversity loss",
+      "Renewable energy sources like solar and wind are growing globally",
+      "The Paris Agreement aims to limit global warming to 2°C above pre-industrial levels",
+      "Ocean acidification is increasing due to higher CO₂ levels"
+    ],
+    "false": [
+      "The Arctic will be ice-free by 2030",
+      "Climate change is caused entirely by natural cycles, not humans",
+      "Planting trees has no impact on CO₂ reduction",
+      "Solar panels increase global temperatures",
+      "Volcano eruptions contribute more to global warming than human activity"
+    ]
+  },
+  "economics_finance": {
+    "true": [
+      "Inflation occurs when the general price level of goods and services rises",
+      "Bitcoin's market capitalization exceeded $1 trillion in 2021",
+      "The unemployment rate in the U.S. fell below 4% in 2022",
+      "The World Bank provides loans to developing countries",
+      "The S&P 500 is a stock market index tracking 500 large U.S. companies"
+    ],
+    "false": [
+      "Bitcoin consumes more energy than Argentina",
+      "The Federal Reserve can directly print money for citizens' spending",
+      "Stock markets are guaranteed to provide profits to all investors",
+      "The U.S. dollar is backed by gold reserves",
+      "Inflation always decreases wages in every economic scenario"
+    ]
+  },
+  "science_technology": {
+    "true": [
+      "Water boils at 100°C at standard atmospheric pressure",
+      "Mars has a thin atmosphere mostly composed of CO₂",
+      "CRISPR is a gene-editing technology",
+      "Light behaves both as a particle and a wave",
+      "AI can be trained to recognize patterns in large datasets"
+    ],
+    "false": [
+      "Quantum computers can break all encryption instantly",
+      "Humans can photosynthesize like plants",
+      "Vaccines modify your DNA permanently",
+      "Faster-than-light travel is currently achievable",
+      "AI can fully replace human creativity without guidance"
+    ]
+  },
+  "social_cultural": {
+    "true": [
+      "Literacy rates are improving globally",
+      "Gender pay gaps exist in many countries",
+      "The average global life expectancy is over 70 years",
+      "Social media usage is higher among younger generations",
+      "Marriage age has increased in many countries over the past decades"
+    ],
+    "false": [
+      "The world population is declining rapidly in all countries",
+      "All societies have equal access to quality education",
+      "Every cultural practice is equally accepted globally",
+      "Remote work eliminates all productivity differences among employees"
+    ]
+  },
+  "food_nutrition": {
+    "true": [
+      "Excess sugar consumption can lead to obesity",
+      "Vitamin D is essential for bone health",
+      "Legumes are a good source of plant-based protein",
+      "Fermented foods can improve gut microbiota",
+      "Trans fats are harmful for heart health"
+    ],
+    "false": [
+      "Eating carrots improves your night vision",
+      "Drinking alcohol kills all bacteria in the gut",
+      "Raw meat provides more vitamins than cooked meat in all cases",
+      "Coconut oil prevents heart disease completely",
+      "Eating chocolate daily prevents acne"
+    ]
+  },
+  "sports": {
+    "true": [
+      "The FIFA World Cup is held every 4 years",
+      "Usain Bolt holds the 100m sprint world record at 9.58 seconds",
+      "Serena Williams has won 23 Grand Slam singles titles",
+      "The NBA Finals are played annually to determine the basketball champion",
+      "Michael Phelps has won 23 Olympic gold medals"
+    ],
+    "false": [
+      "Messi scored more international goals than Ronaldo",
+      "The Olympics are held every 2 years",
+      "Michael Jordan played in the NFL",
+      "Cricket is played on a rectangular field worldwide",
+      "The Super Bowl has been held since the 1800s"
+    ]
+  },
+  "entertainment_media": {
+    "true": [
+      "Avatar: The Way of Water became one of the highest-grossing films",
+      "The Oscars are awarded annually for achievements in film",
+      "Social media influencers can monetize content through sponsorships",
+      "Netflix produces original content globally",
+      "The Marvel Cinematic Universe is a popular film franchise"
+    ],
+    "false": [
+      "All celebrity rumors on social media are verified",
+      "Music charts are fully determined by radio play only",
+      "Streaming services do not pay royalties to artists",
+      "Awards are based solely on public voting worldwide"
+    ]
+  },
+  "technology_cybersecurity": {
+    "true": [
+      "Data breaches can compromise user information",
+      "Strong passwords reduce the risk of unauthorized access",
+      "AI ethics involves considerations like bias, fairness, and privacy",
+      "Encryption helps secure digital communication",
+      "Multi-factor authentication increases account security"
+    ],
+    "false": [
+      "AI can read your thoughts using brain scans",
+      "Every software update guarantees protection against all hacks",
+      "Cybersecurity threats are only from external hackers",
+      "Hardware performance has no impact on software security",
+      "Cloud storage is completely immune to data loss"
+    ]
+  }
+}

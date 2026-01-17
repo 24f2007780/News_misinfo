@@ -1,0 +1,101 @@
+Category,Claim,True/False
+Politics & Governance,The United States presidential election in 2020 had Joe Biden elected as president.,TRUE
+Politics & Governance,Germany is a member of the European Union.,TRUE
+Politics & Governance,The United Nations Security Council has 15 members.,TRUE
+Politics & Governance,Canada’s Prime Minister as of 2025 is Justin Trudeau.,TRUE
+Politics & Governance,India’s Goods and Services Tax (GST) was implemented in 2017.,TRUE
+Politics & Governance,Country X spent 90% of its budget on defense last year.,FALSE
+Politics & Governance,The UK left the EU in 2023.,FALSE
+Politics & Governance,The United Nations has 300 member countries.,FALSE
+Politics & Governance,France’s president is elected for a 10-year term.,FALSE
+Politics & Governance,China signed a permanent military alliance with Russia in 2024.,FALSE
+Health & Medicine,Vaccines reduce the risk of severe illness from infectious diseases.,TRUE
+Health & Medicine,Insulin is essential for regulating blood sugar in diabetic patients.,TRUE
+Health & Medicine,Smoking increases the risk of lung cancer.,TRUE
+Health & Medicine,Antibiotics do not treat viral infections.,TRUE
+Health & Medicine,Adequate hydration helps maintain kidney function.,TRUE
+Health & Medicine,Green tea can completely cure diabetes.,FALSE
+Health & Medicine,COVID-19 vaccines contain microchips for tracking people.,FALSE
+Health & Medicine,Drinking bleach can cure viral infections.,FALSE
+Health & Medicine,Eating only meat provides all essential nutrients.,FALSE
+Health & Medicine,Antibiotics can prevent COVID-19.,FALSE
+Environment & Climate,Global average temperatures have risen by about 1.2°C since pre-industrial times.,TRUE
+Environment & Climate,Deforestation contributes to biodiversity loss.,TRUE
+Environment & Climate,Renewable energy sources like solar and wind are growing globally.,TRUE
+Environment & Climate,The Paris Agreement aims to limit global warming to 2°C above pre-industrial levels.,TRUE
+Environment & Climate,Ocean acidification is increasing due to higher CO₂ levels.,TRUE
+Environment & Climate,The Arctic will be ice-free by 2030.,FALSE
+Environment & Climate,"Climate change is caused entirely by natural cycles, not humans.",FALSE
+Environment & Climate,Planting trees has no impact on CO₂ reduction.,FALSE
+Environment & Climate,Solar panels increase global temperatures.,FALSE
+Environment & Climate,Volcano eruptions contribute more to global warming than human activity.,FALSE
+Economics & Finance,Inflation occurs when the general price level of goods and services rises.,TRUE
+Economics & Finance,Bitcoin’s market capitalization exceeded $1 trillion in 2021.,TRUE
+Economics & Finance,The unemployment rate in the U.S. fell below 4% in 2022.,TRUE
+Economics & Finance,The World Bank provides loans to developing countries.,TRUE
+Economics & Finance,The S&P 500 is a stock market index tracking 500 large U.S. companies.,TRUE
+Economics & Finance,Bitcoin consumes more energy than Argentina.,FALSE
+Economics & Finance,The Federal Reserve can directly print money for citizens’ spending.,FALSE
+Economics & Finance,Stock markets are guaranteed to provide profits to all investors.,FALSE
+Economics & Finance,The U.S. dollar is backed by gold reserves.,FALSE
+Economics & Finance,Inflation always decreases wages in every economic scenario.,FALSE
+Science & Technology,Water boils at 100°C at standard atmospheric pressure.,TRUE
+Science & Technology,Mars has a thin atmosphere mostly composed of CO₂.,TRUE
+Science & Technology,CRISPR is a gene-editing technology.,TRUE
+Science & Technology,Light behaves both as a particle and a wave.,TRUE
+Science & Technology,AI can be trained to recognize patterns in large datasets.,TRUE
+Science & Technology,Quantum computers can break all encryption instantly.,FALSE
+Science & Technology,Humans can photosynthesize like plants.,FALSE
+Science & Technology,Vaccines modify your DNA permanently.,FALSE
+Science & Technology,Faster-than-light travel is currently achievable.,FALSE
+Science & Technology,AI can fully replace human creativity without guidance.,FALSE
+Social & Cultural Issues,Literacy rates are improving globally.,TRUE
+Social & Cultural Issues,Gender pay gaps exist in many countries.,TRUE
+Social & Cultural Issues,The average global life expectancy is over 70 years.,TRUE
+Social & Cultural Issues,Social media usage is higher among younger generations.,TRUE
+Social & Cultural Issues,Marriage age has increased in many countries over the past decades.,TRUE
+Social & Cultural Issues,Gen Z is less interested in owning cars than previous generations.,FALSE
+Social & Cultural Issues,The world population is declining rapidly in all countries.,FALSE
+Social & Cultural Issues,All societies have equal access to quality education.,FALSE
+Social & Cultural Issues,Every cultural practice is equally accepted globally.,FALSE
+Social & Cultural Issues,Remote work eliminates all productivity differences among employees.,FALSE
+Food & Nutrition,Excess sugar consumption can lead to obesity.,TRUE
+Food & Nutrition,Vitamin D is essential for bone health.,TRUE
+Food & Nutrition,Legumes are a good source of plant-based protein.,TRUE
+Food & Nutrition,Fermented foods can improve gut microbiota.,TRUE
+Food & Nutrition,Trans fats are harmful for heart health.,TRUE
+Food & Nutrition,Eating carrots improves your night vision.,FALSE
+Food & Nutrition,Drinking alcohol kills all bacteria in the gut.,FALSE
+Food & Nutrition,Raw meat provides more vitamins than cooked meat in all cases.,FALSE
+Food & Nutrition,Coconut oil prevents heart disease completely.,FALSE
+Food & Nutrition,Eating chocolate daily prevents acne.,FALSE
+Sports,The FIFA World Cup is held every 4 years.,TRUE
+Sports,Usain Bolt holds the 100m sprint world record at 9.58 seconds.,TRUE
+Sports,Serena Williams has won 23 Grand Slam singles titles.,TRUE
+Sports,The NBA Finals are played annually to determine the basketball champion.,TRUE
+Sports,Michael Phelps has won 23 Olympic gold medals.,TRUE
+Sports,Messi scored more international goals than Ronaldo.,FALSE
+Sports,The Olympics are held every 2 years.,FALSE
+Sports,Michael Jordan played in the NFL.,FALSE
+Sports,Cricket is played on a rectangular field worldwide.,FALSE
+Sports,The Super Bowl has been held since the 1800s.,FALSE
+Entertainment & Media,“Avatar: The Way of Water” became one of the highest-grossing films.,TRUE
+Entertainment & Media,The Oscars are awarded annually for achievements in film.,TRUE
+Entertainment & Media,Social media influencers can monetize content through sponsorships.,TRUE
+Entertainment & Media,Netflix produces original content globally.,TRUE
+Entertainment & Media,The Marvel Cinematic Universe is a popular film franchise.,TRUE
+Entertainment & Media,This movie became the highest-grossing film in history.,FALSE
+Entertainment & Media,All celebrity rumors on social media are verified.,FALSE
+Entertainment & Media,Music charts are fully determined by radio play only.,FALSE
+Entertainment & Media,Streaming services do not pay royalties to artists.,FALSE
+Entertainment & Media,Awards are based solely on public voting worldwide.,FALSE
+Technology & Cybersecurity,Data breaches can compromise user information.,TRUE
+Technology & Cybersecurity,Strong passwords reduce the risk of unauthorized access.,TRUE
+Technology & Cybersecurity,"AI ethics involves considerations like bias, fairness, and privacy.",TRUE
+Technology & Cybersecurity,Encryption helps secure digital communication.,TRUE
+Technology & Cybersecurity,Multi-factor authentication increases account security.,TRUE
+Technology & Cybersecurity,AI can read your thoughts using brain scans.,FALSE
+Technology & Cybersecurity,Every software update guarantees protection against all hacks.,FALSE
+Technology & Cybersecurity,Cybersecurity threats are only from external hackers.,FALSE
+Technology & Cybersecurity,Hardware performance has no impact on software security.,FALSE
+Technology & Cybersecurity,Cloud storage is completely immune to data loss.,FALSE

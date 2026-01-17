@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Extension Icons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .icons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-label {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .instructions {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border-left: 4px solid #667eea;
+        }
+
+        .instructions h2 {
+            margin-top: 0;
+            color: #374151;
+        }
+
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+
+        .instructions li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔍 Extension Icon Generator</h1>
+        <p>Click the buttons below to download the extension icons:</p>
+
+        <div class="icons">
+            <div>
+                <canvas id="canvas16" width="16" height="16"></canvas>
+                <div class="icon-label">16×16</div>
+                <button onclick="downloadIcon('canvas16', 'icon16.png')">Download</button>
+            </div>
+            <div>
+                <canvas id="canvas48" width="48" height="48"></canvas>
+                <div class="icon-label">48×48</div>
+                <button onclick="downloadIcon('canvas48', 'icon48.png')">Download</button>
+            </div>
+            <div>
+                <canvas id="canvas128" width="128" height="128"></canvas>
+                <div class="icon-label">128×128</div>
+                <button onclick="downloadIcon('canvas128', 'icon128.png')">Download</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <button onclick="downloadAll()" style="font-size: 16px; padding: 14px 32px;">
+                Download All Icons
+            </button>
+        </div>
+
+        <div class="instructions">
+            <h2>Instructions</h2>
+            <ol>
+                <li>Click "Download All Icons" or download each icon individually</li>
+                <li>Save all three PNG files to the <code>Missinformation/extension/icons/</code> directory</li>
+                <li>Make sure the files are named exactly: <code>icon16.png</code>, <code>icon48.png</code>,
+                    <code>icon128.png</code></li>
+                <li>The extension will now load with proper icons!</li>
+            </ol>
+            <p><strong>Note:</strong> The icons feature a magnifying glass design representing fact-checking and
+                verification.</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to draw icon on canvas
+        function drawIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+
+            // Clear canvas
+            ctx.clearRect(0, 0, size, size);
+
+            // Gradient background
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+
+            // Draw magnifying glass
+            const centerX = size / 2;
+            const centerY = size / 2 - size * 0.1;
+            const radius = size * 0.25;
+            const handleLength = size * 0.25;
+
+            // Glass circle (white)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.fill();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = size * 0.06;
+            ctx.stroke();
+
+            // Checkmark inside glass
+            ctx.strokeStyle = '#667eea';
+            ctx.lineWidth = size * 0.08;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(centerX - radius * 0.4, centerY);
+            ctx.lineTo(centerX - radius * 0.1, centerY + radius * 0.4);
+            ctx.lineTo(centerX + radius * 0.5, centerY - radius * 0.3);
+            ctx.stroke();
+
+            // Handle
+            const handleStartX = centerX + radius * 0.7;
+            const handleStartY = centerY + radius * 0.7;
+            const handleEndX = handleStartX + handleLength;
+            const handleEndY = handleStartY + handleLength;
+
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = size * 0.12;
+            ctx.lineCap = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(handleStartX, handleStartY);
+            ctx.lineTo(handleEndX, handleEndY);
+            ctx.stroke();
+        }
+
+        // Draw all icons
+        drawIcon('canvas16', 16);
+        drawIcon('canvas48', 48);
+        drawIcon('canvas128', 128);
+
+        // Download function
+        function downloadIcon(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        // Download all icons
+        function downloadAll() {
+            setTimeout(() => downloadIcon('canvas16', 'icon16.png'), 100);
+            setTimeout(() => downloadIcon('canvas48', 'icon48.png'), 300);
+            setTimeout(() => downloadIcon('canvas128', 'icon128.png'), 500);
+            alert('Downloading all icons! Please save them to the extension/icons/ directory.');
+        }
+    </script>
+</body>
+
+</html>
