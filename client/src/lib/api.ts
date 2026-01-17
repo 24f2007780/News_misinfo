@@ -1,11 +1,18 @@
 import axios from 'axios'
 import { useAuthStore } from '../store/authStore'
 
-const api = axios.create({
-  baseURL: '/api',
+// API base URL configuration
+const isDevelopment = process.env.NODE_ENV === 'development'
+const API_BASE_URL = isDevelopment
+  ? 'http://localhost:8000/api'  // Local development
+  : '/api'  // Production (relative URL for Vercel)
+
+export const api = axios.create({
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // Important for cookies/auth
 })
 
 // Add auth token to requests
