@@ -6,7 +6,7 @@ const MultilingualAgent = require('./MultilingualAgent');
 const FactCheckerAssistantAgent = require('./FactCheckerAssistantAgent');
 const AnalystAgent = require('./AnalystAgent');
 const GovernanceAgent = require('./GovernanceAgent');
-
+const { safeMap } = require('../utils/arrayUtils');
 let agents = {};
 
 function initializeAgents(io) {

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { safeMap } = require('../utils/arrayUtils');
 
 class PDFGenerator {
   static generateHTML(data, type = 'daily') {

@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { authenticateToken } = require('./auth');
-const arrayUtils = require('./arrayUtils'); // Import arrayUtils
+const { safeMap } = require('../utils/arrayUtils');
 
 const router = express.Router();
 

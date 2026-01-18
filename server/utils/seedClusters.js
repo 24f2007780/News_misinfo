@@ -1,7 +1,6 @@
 const Cluster = require('../models/Cluster');
 const Claim = require('../models/Claim');
-import { safeMap } from '@/utils/arrayUtils';
-
+const { safeMap } = require('./arrayUtils');  // ✅ Correct path
 const sampleClusters = [
   {
     name: "COVID-19 Vaccine Misinformation",

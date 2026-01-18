@@ -13,7 +13,7 @@ if (!MONGODB_URI) {
   console.error('❌ MONGODB_URI is missing in .env');
   process.exit(1);
 }
-
+const { safeMap } = require('./utils/arrayUtils');
 // Import routes
 const authRoutes = require('./routes/auth');
 const claimRoutes = require('./routes/claims');

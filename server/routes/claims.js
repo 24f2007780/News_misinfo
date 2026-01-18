@@ -4,6 +4,7 @@ const { authenticateToken } = require('./auth');
 const AgentOrchestrator = require('../services/AgentOrchestrator');
 const WebScrapingService = require('../services/WebScrapingService');
 const EnhancedVerificationService = require('../services/EnhancedVerificationService');
+const { safeMap } = require('../utils/arrayUtils');
 
 const router = express.Router();
 
