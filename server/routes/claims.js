@@ -305,7 +305,7 @@ router.post('/quick-verify', async (req, res) => {
         claimToUpdate.explanation = verificationResult.explanation;
         
         // Add new evidence from verification
-        const newEvidence = verificationResult.evidence.map(e => ({
+        const newEvidence = safeMap(verificationResult.evidence, e => ({
           source: e.source,
           url: e.url,
           title: e.title,
@@ -329,7 +329,7 @@ router.post('/quick-verify', async (req, res) => {
             lastScraped: new Date(),
             sitesSearched: verificationResult.scrapingSummary.sitesSearched,
             resultsFound: verificationResult.scrapingSummary.resultsFound,
-            topRelevanceScore: Math.max(...verificationResult.evidence.map(e => e.relevanceScore || 0)),
+            topRelevanceScore: safeMap(Math.max(...verificationResult.evidence.map(e => e.relevanceScore || 0)),
             scrapingEnabled: true,
             scrapingHistory: [
               ...(claimToUpdate.webScrapingData?.scrapingHistory || []),

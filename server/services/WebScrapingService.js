@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
-
+const { safeMap } = require('../utils/arrayUtils');
 class WebScrapingService {
   constructor() {
     this.factCheckingSites = [
@@ -98,7 +98,7 @@ class WebScrapingService {
     console.log(`🔍 Searching fact-checking sites for: "${claim.substring(0, 50)}..."`);
     
     const results = [];
-    const searchPromises = this.factCheckingSites.map(site => 
+    const searchPromises = safeMap(this.factCheckingSites, site => 
       this.searchSingleSite(site, claim).catch(error => {
         console.warn(`⚠️ Failed to search ${site.name}:`, error.message);
         return null;
@@ -354,7 +354,7 @@ class WebScrapingService {
       };
     }
 
-    const verdicts = results.map(r => r.verdict).filter(v => v !== 'unknown');
+    const verdicts = safeMap(results, r => r.verdict).filter(v => v !== 'unknown');
     const verdictCounts = {};
     
     verdicts.forEach(verdict => {
@@ -407,7 +407,7 @@ class WebScrapingService {
   getScrapingStats() {
     return {
       supportedSites: this.factCheckingSites.length,
-      sites: this.factCheckingSites.map(site => ({
+      sites: safeMap(this.factCheckingSites, site => ({
         name: site.name,
         baseUrl: site.baseUrl
       }))

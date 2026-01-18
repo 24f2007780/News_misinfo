@@ -1,6 +1,7 @@
 const cron = require('node-cron');
 const Claim = require('../models/Claim');
 const WebScrapingService = require('./WebScrapingService');
+const { safeMap } = require('../utils/arrayUtils');
 
 class ScrapingScheduler {
   constructor() {
@@ -205,7 +206,7 @@ class ScrapingScheduler {
   async updateClaimWithScrapingData(claim, scrapingResult, isRescrape = false) {
     try {
       // Add new evidence from web scraping
-      const newEvidence = scrapingResult.evidence.map(e => ({
+      const newEvidence = safeMap(scrapingResult.evidence, e => ({
         source: e.source,
         url: e.url,
         title: e.title,
@@ -235,7 +236,7 @@ class ScrapingScheduler {
         lastScraped: new Date(),
         sitesSearched: scrapingResult.scrapingSummary.sitesSearched,
         resultsFound: scrapingResult.scrapingSummary.resultsFound,
-        topRelevanceScore: Math.max(...scrapingResult.evidence.map(e => e.relevanceScore || 0)),
+        topRelevanceScore: safeMap(Math.max(...scrapingResult.evidence, e => e.relevanceScore || 0)),
         scrapingEnabled: true,
         scrapingHistory: [
           ...(claim.webScrapingData?.scrapingHistory || []),

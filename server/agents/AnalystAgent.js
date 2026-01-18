@@ -2,6 +2,7 @@ const BaseAgent = require('./BaseAgent');
 const { getAIService } = require('../services/AIService');
 const Claim = require('../models/Claim');
 const Cluster = require('../models/Cluster');
+import { safeMap } from '@/utils/arrayUtils';
 
 class AnalystAgent extends BaseAgent {
   constructor(io) {
@@ -31,7 +32,7 @@ class AnalystAgent extends BaseAgent {
       const brief = {
         date: new Date(),
         stats,
-        topClusters: topClusters.map(c => ({
+        topClusters: safeMap(topClusters, c => ({
           id: c._id,
           name: c.name,
           description: c.description,
@@ -93,7 +94,7 @@ class AnalystAgent extends BaseAgent {
         },
         {
           role: "user",
-          content: `Statistics:\n${JSON.stringify(stats, null, 2)}\n\nTop Clusters:\n${clusters.map(c => `- ${c.name}: ${c.description}`).join('\n')}`
+          content: `Statistics:\n${JSON.stringify(stats, null, 2)}\n\nTop Clusters:\n${safeMap(clusters, c => `- ${c.name}: ${c.description}`).join('\n')}`
         }
       ];
 
@@ -136,10 +137,10 @@ class AnalystAgent extends BaseAgent {
       });
     });
 
-    return Object.entries(keywords)
+    return safeMap(Object.entries(keywords)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 10)
-      .map(([keyword, count]) => ({ keyword, count }));
+      ,([keyword, count]) => ({ keyword, count }));
   }
 
   detectSpikes(dailyCounts) {
@@ -147,9 +148,9 @@ class AnalystAgent extends BaseAgent {
     const avg = counts.reduce((a, b) => a + b, 0) / counts.length;
     const threshold = avg * 1.5;
 
-    return Object.entries(dailyCounts)
+    return safeMap(Object.entries(dailyCounts)
       .filter(([date, count]) => count > threshold)
-      .map(([date, count]) => ({ date, count, threshold }));
+      ,([date, count]) => ({ date, count, threshold }));
   }
 
   async generateWeeklyReport() {

@@ -2,6 +2,7 @@ const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 const Claim = require('../models/Claim');
+const { safeMap } = require('../utils/arrayUtils');
 
 class MLVerificationService {
   constructor() {
@@ -441,7 +442,7 @@ class MLVerificationService {
         long: `Our machine learning verification system analyzed the claim "${originalClaim}" against available evidence sources. The analysis involved natural language inference using transformer models trained on fact-checking datasets. Result: ${formattedVerdict} with ${confidencePercent}% confidence. ${reasoning || ''}`,
         eli5: `The computer looked at this claim and compared it with what it knows. It thinks this claim is ${formattedVerdict.toLowerCase()}.`
       },
-      evidence: (Array.isArray(evidence) ? evidence : []).slice(0, 5).map(e => ({  
+      evidence: (safeMap(Array.isArray(evidence) ? evidence : []).slice(0, 5), e => ({  
         ...e,
         ml_analysis: evidence_analysis?.find(ea => ea.evidence_id === e.id) || null
       })),

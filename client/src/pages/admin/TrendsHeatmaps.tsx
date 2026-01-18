@@ -131,7 +131,7 @@ export default function TrendsHeatmaps() {
       {/* Overall Statistics */}
       {verdictData.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {verdictData.map((item, index) => (
+          {safeMap(verdictData, (item, index) => (
             <Card key={index} className="bg-card/50 backdrop-blur-sm border-white/10">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">

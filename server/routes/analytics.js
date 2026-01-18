@@ -4,6 +4,7 @@ const Cluster = require('../models/Cluster');
 const { getAgents } = require('../agents');
 const { authenticateToken } = require('./auth');
 const PDFGenerator = require('../utils/pdfGenerator');
+const { safeMap } = require('../utils/arrayUtils');
 
 const router = express.Router();
 
@@ -89,7 +90,7 @@ router.get('/categories', async (req, res) => {
       'other': 'Other'
     };
 
-    const formattedStats = categoryStats.map(stat => ({
+    const formattedStats = safeMap(categoryStats, stat => ({
       category: stat._id,
       label: categoryLabels[stat._id] || stat._id,
       total: stat.total,
@@ -269,8 +270,8 @@ router.get('/heatmap', async (req, res) => {
     });
 
     // Convert sets to arrays and get top countries
-    const topCountries = Object.entries(countrySummary)
-      .map(([country, data]) => ({
+    const topCountries = safeMap(Object.entries(countrySummary)
+      ,([country, data]) => ({
         country,
         region: data.region,
         count: data.count,
@@ -279,8 +280,8 @@ router.get('/heatmap', async (req, res) => {
       .sort((a, b) => b.count - a.count)
       .slice(0, 10);
 
-    const regionData = Object.entries(regionSummary)
-      .map(([region, data]) => ({
+    const regionData = safeMap(Object.entries(regionSummary)
+      ,([region, data]) => ({
         region,
         count: data.count,
         clusters: data.clusters.size,

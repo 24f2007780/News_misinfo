@@ -2,6 +2,7 @@ const { getAIService } = require("./AIService");
 const WebScrapingService = require("./WebScrapingService");
 const MLVerificationService = require("./MLVerificationService");
 const Claim = require("../models/Claim");
+const { safeMap } = require('../utils/arrayUtils');
 
 class ComprehensiveVerificationService {
   constructor() {
@@ -162,8 +163,8 @@ class ComprehensiveVerificationService {
       const webScrapingResult = await WebScrapingService.verifyClaim(claimText);
 
       if (webScrapingResult && webScrapingResult.evidence) {
-        evidence.push(
-          ...webScrapingResult.evidence.map((e) => ({
+        evidence.push(safeMap(
+          ...webScrapingResult.evidence, (e) => ({
             ...e,
             collection_method: "web_scraping",
           }))
@@ -237,8 +238,8 @@ class ComprehensiveVerificationService {
       .toLowerCase();
 
     // Clean and structure evidence
-    const processedEvidence = evidenceData
-      .map((evidence) => ({
+    const processedEvidence = safeMap(evidenceData
+      ,(evidence) => ({
         ...evidence,
         snippet: this.cleanText(evidence.snippet || evidence.content || ""),
         title: this.cleanText(evidence.title || ""),
@@ -270,7 +271,7 @@ class ComprehensiveVerificationService {
    */
   async retrieveRelevantEvidence(claim, evidence) {
     // Calculate relevance scores
-    const scoredEvidence = evidence.map((e) => ({
+    const scoredEvidence = safeMap(evidence, (e) => ({
       ...e,
       relevanceScore: this.calculateSemanticSimilarity(
         claim,
@@ -452,8 +453,8 @@ Respond with ONLY valid JSON:
         } evidence sources indicates this claim is ${formattedVerdict.toLowerCase()} (${confidencePercent}% confidence)`,
         long: `Our comprehensive verification pipeline analyzed this claim through web scraping, evidence retrieval, and machine learning models. Based on ${
           evidence.length
-        } evidence sources from ${[
-          ...new Set(evidence.map((e) => e.source)),
+        } evidence sources from ${[safeMap(
+          ...new Set(evidence, (e) => e.source)),
         ].join(
           ", "
         )}, the claim is classified as ${formattedVerdict.toLowerCase()} with ${confidencePercent}% confidence. ${reasoning}`,
