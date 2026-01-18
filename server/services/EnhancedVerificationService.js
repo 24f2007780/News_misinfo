@@ -1,5 +1,6 @@
 const { getAIService } = require("./AIService");
 const WebScrapingService = require("./WebScrapingService");
+const { safeMap } = require('../utils/arrayUtils');
 
 class EnhancedVerificationService {
   constructor() {
@@ -371,7 +372,7 @@ You are NOT limited to claims in your training data - you can reason about new c
    * Format AI evidence to match expected structure
    */
   formatAIEvidence(aiEvidence) {
-    return aiEvidence.map((evidence) => ({
+    return safeMap(aiEvidence, (evidence) => ({
       source: evidence.source || "AI Knowledge Base",
       title: evidence.title || "AI Analysis",
       snippet:

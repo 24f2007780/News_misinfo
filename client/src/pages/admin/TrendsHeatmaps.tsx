@@ -190,7 +190,7 @@ export default function TrendsHeatmaps() {
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={pieData.filter(item => item).map((item, index) => ({ name: categoryStats[index].label || categoryStats[index].category || 'Unknown', value: item }))}
+                  data={safeMap(pieData.filter(item => item), (item, index) => ({ name: categoryStats[index].label || categoryStats[index].category || 'Unknown', value: item }))}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
@@ -199,7 +199,7 @@ export default function TrendsHeatmaps() {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {pieData.filter(item => item).map((_, index) => (
+                  {safeMap(pieData.filter(item => item), (_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
@@ -226,7 +226,7 @@ export default function TrendsHeatmaps() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {heatmapData.slice(0, 12).map((location, idx) => (
+            {safeMap(heatmapData.slice(0, 12), (location, idx) => (
               <div
                 key={idx}
                 className="p-4 bg-secondary/30 rounded-lg border border-white/5"
@@ -277,7 +277,7 @@ export default function TrendsHeatmaps() {
         <CardContent>
           {trends?.trending && trends.trending.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-              {trends.trending.map((topic: any, idx: number) => (
+              {safeMap(trends.trending, (topic: any, idx: number) => (
                 <div
                   key={idx}
                   className="p-4 bg-gradient-to-br from-primary/10 to-purple/10 rounded-lg border border-primary/20 text-center"
@@ -305,7 +305,7 @@ export default function TrendsHeatmaps() {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {trends.spikes.map((spike: any, idx: number) => (
+              {safeMap(trends.spikes, (spike: any, idx: number) => (
                 <div
                   key={idx}
                   className="p-4 bg-black/30 rounded-lg border border-red-500/20"

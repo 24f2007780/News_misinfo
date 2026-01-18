@@ -2,6 +2,7 @@ const BaseAgent = require('./BaseAgent');
 const { getAIService } = require('../services/AIService');
 const axios = require('axios');
 const Claim = require('../models/Claim');
+const { safeMap } = require('../utils/arrayUtils');
 
 class VerificationAgent extends BaseAgent {
   constructor(io) {
@@ -115,7 +116,7 @@ class VerificationAgent extends BaseAgent {
         }
       });
 
-      return response.data.articles.map(article => ({
+      return safeMap(response.data.articles, article => ({
         source: article.source.name,
         url: article.url,
         title: article.title,
@@ -137,7 +138,7 @@ class VerificationAgent extends BaseAgent {
 
   async analyzeEvidence(claim, evidence) {
     try {
-      const evidenceText = evidence.map(e => 
+      const evidenceText = safeMap(evidence, e => 
         `Source: ${e.source}\nTitle: ${e.title}\nContent: ${e.snippet}`
       ).join('\n\n');
 

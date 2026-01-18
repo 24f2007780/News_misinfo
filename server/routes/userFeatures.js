@@ -6,6 +6,7 @@ const UserAchievement = require('../models/UserAchievement');
 const DailyBrief = require('../models/DailyBrief');
 const User = require('../models/User');
 const Claim = require('../models/Claim');
+const { safeMap } = require('../utils/arrayUtils');
 
 // Middleware to verify user (simplified - add proper JWT verification)
 const authMiddleware = (req, res, next) => {
@@ -94,7 +95,7 @@ router.get('/community/pending', authMiddleware, async (req, res) => {
 
     // Get vote counts for each claim
     const claimsWithVotes = await Promise.all(
-      claims.map(async (claim) => {
+      safeMap(claims, async (claim) => {
         const votes = await CommunityVote.find({ claimId: claim._id });
         
         const voteCounts = {
@@ -355,7 +356,7 @@ async function generateDailyBrief(userId) {
     userId,
     date: today,
     summary,
-    topMisinformation: topClaims.map(claim => ({
+    topMisinformation: safeMap(topClaims, claim => ({
       claimId: claim._id,
       text: claim.text,
       category: claim.category,

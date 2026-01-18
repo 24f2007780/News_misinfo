@@ -2,7 +2,7 @@ const BaseAgent = require('./BaseAgent');
 const { getAIService } = require('../services/AIService');
 const Claim = require('../models/Claim');
 const Cluster = require('../models/Cluster');
-import { safeMap } from '@/utils/arrayUtils';
+const { safeMap } = require('../utils/arrayUtils');
 
 class AnalystAgent extends BaseAgent {
   constructor(io) {

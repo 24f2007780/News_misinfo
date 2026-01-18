@@ -2,6 +2,7 @@ const BaseAgent = require('./BaseAgent');
 const { getAIService } = require('../services/AIService');
 const Claim = require('../models/Claim');
 const Cluster = require('../models/Cluster');
+const { safeMap } = require('../utils/arrayUtils');
 
 class ClusterAgent extends BaseAgent {
   constructor(io) {
@@ -92,7 +93,7 @@ class ClusterAgent extends BaseAgent {
       
       // Normalize
       const magnitude = Math.sqrt(embedding.reduce((sum, val) => sum + val * val, 0));
-      return embedding.map(val => val / (magnitude || 1));
+      return safeMap(embedding, val => val / (magnitude || 1));
     } catch (error) {
       console.error('Embedding generation error:', error);
       return [];
