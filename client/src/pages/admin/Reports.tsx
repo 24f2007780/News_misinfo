@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import { FileText, Download, Calendar, TrendingUp } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { safeMap } from '@/utils/arrayUtils';
 
 export default function Reports() {
   const { t } = useLanguage()
@@ -186,7 +187,7 @@ export default function Reports() {
               <div>
                 <h3 className="font-semibold text-white mb-3">Top Misinformation Clusters</h3>
                 <div className="space-y-2">
-                  {dailyBrief.topClusters.map((cluster: any, idx: number) => (
+                  {safeMap(dailyBrief.topClusters, (cluster: any, idx: number) => (
                     <div key={idx} className="p-3 bg-secondary/30 rounded-lg">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -208,7 +209,7 @@ export default function Reports() {
               <div>
                 <h3 className="font-semibold text-white mb-3">Trending Topics</h3>
                 <div className="flex flex-wrap gap-2">
-                  {dailyBrief.trends.trending?.slice(0, 10).map((topic: any, idx: number) => (
+                  {safeMap(dailyBrief.trends.trending?.slice(0, 10), (topic: any, idx: number) => (
                     <div
                       key={idx}
                       className="px-3 py-2 bg-primary/10 border border-primary/20 rounded-lg"
@@ -276,7 +277,7 @@ export default function Reports() {
                   <span>AI Recommendations</span>
                 </h3>
                 <div className="space-y-2">
-                  {weeklyReport.recommendations.map((rec: string, idx: number) => (
+                  {safeMap(weeklyReport.recommendations,(rec: string, idx: number) => (
                     <div key={idx} className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
                       <p className="text-sm text-gray-300">{rec}</p>
                     </div>

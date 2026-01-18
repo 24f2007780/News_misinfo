@@ -7,6 +7,7 @@ import Badge from '@/components/ui/Badge'
 import { FlaskConical, CheckCircle, XCircle, AlertTriangle } from 'lucide-react'
 import { formatDateTime } from '@/lib/utils'
 import toast from 'react-hot-toast'
+import { safeMap } from '@/utils/arrayUtils';
 
 export default function VerificationStudio() {
   const { t } = useLanguage()
@@ -94,7 +95,7 @@ export default function VerificationStudio() {
           </div>
 
           <div className="space-y-2 max-h-[calc(100vh-200px)] overflow-y-auto">
-            {pendingClaims.map((claim) => (
+            {safeMap(pendingClaims, (claim) => (
               <Card
                 key={claim._id}
                 className={`cursor-pointer transition-all ${
@@ -182,7 +183,7 @@ export default function VerificationStudio() {
                     <div>
                       <h4 className="font-semibold mb-2">Entities Detected</h4>
                       <div className="flex flex-wrap gap-2">
-                        {selectedClaim.entities.map((entity: any, idx: number) => (
+                        {safeMap(selectedClaim.entities, (entity: any, idx: number) => (
                           <Badge key={idx} variant="secondary">
                             {entity.text} ({entity.type})
                           </Badge>

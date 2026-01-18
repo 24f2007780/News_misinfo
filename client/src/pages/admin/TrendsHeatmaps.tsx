@@ -5,6 +5,7 @@ import Badge from '@/components/ui/Badge'
 import { TrendingUp, Globe, BarChart3, RefreshCw } from 'lucide-react'
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
 import toast from 'react-hot-toast'
+import { safeMap } from '@/utils/arrayUtils';
 
 const COLORS = ['#3b82f6', '#ef4444', '#f59e0b', '#10b981', '#8b5cf6', '#ec4899']
 
@@ -81,27 +82,17 @@ export default function TrendsHeatmaps() {
   }
 
   // Use real category statistics for charts
-  const categoryChartData = categoryStats?.length > 0 ? categoryStats.map(cat => ({
+  const categoryChartData = safeMap(categoryStats?.length > 0 ? categoryStats : [], cat => ({
     name: cat.label || cat.category || 'Unknown',
     total: cat.total || 0,
     true: cat.true || 0,
     false: cat.false || 0,
     misleading: cat.misleading || 0,
     unverified: cat.unverified || 0
-  })) : [
-    { name: 'No Data', total: 0, true: 0, false: 0, misleading: 0, unverified: 0 }
-  ]
+  }));
 
   // Pie chart data for category distribution
-  const pieData = categoryStats?.length > 0 ? categoryStats
-    .filter(cat => cat.total > 0)
-    .slice(0, 6)
-    .map(cat => ({
-      name: cat.label || cat.category || 'Unknown',
-      value: cat.total || 0
-    })) : [
-    { name: 'No Claims Yet', value: 1 }
-  ]
+  const pieData = safeMap(categoryStats?.length > 0 ? categoryStats : [], cat => cat.total > 0);
 
   // Overall verdict distribution for additional insights
   const verdictData = verdictDistribution ? [
@@ -199,7 +190,7 @@ export default function TrendsHeatmaps() {
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={pieData}
+                  data={pieData.filter(item => item).map((item, index) => ({ name: categoryStats[index].label || categoryStats[index].category || 'Unknown', value: item }))}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
@@ -208,7 +199,7 @@ export default function TrendsHeatmaps() {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {pieData.map((_, index) => (
+                  {pieData.filter(item => item).map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>

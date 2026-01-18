@@ -3,6 +3,8 @@ import { useAuthStore } from '@/store/authStore'
 import { initSocket } from '@/lib/socket'
 import api from '@/lib/api'
 import toast from 'react-hot-toast'
+import { safeMap } from '@/utils/arrayUtils'
+
 import { 
   Search, 
   TrendingUp, 
@@ -378,7 +380,7 @@ export default function UserDashboard() {
                       No new items in your feed. Check back later!
                     </p>
                   ) : (
-                    personalizedFeed.map((item: any) => (
+                  safeMap(personalizedFeed, (item: any) => (
                       <div key={item._id} className={`p-4 rounded-lg border ${darkMode ? 'bg-slate-800 border-white/10' : 'bg-gray-50 border-gray-200'}`}>
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
@@ -449,7 +451,7 @@ export default function UserDashboard() {
                       </p>
                     ) : (
                       <div className="grid grid-cols-2 gap-3">
-                        {achievements.map((achievement: any) => (
+                        { safeMap(achievements, (achievement: any) => (
                           <div key={achievement._id} className={`p-3 rounded-lg border ${darkMode ? 'bg-slate-800 border-white/10' : 'bg-gray-50 border-gray-200'}`}>
                             <div className="text-2xl mb-2">{achievement.icon || '🏆'}</div>
                             <h4 className={`font-semibold text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>{achievement.title}</h4>
@@ -536,7 +538,7 @@ export default function UserDashboard() {
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
                       >
-                        {CLAIM_CATEGORIES.map((category) => (
+                        {safeMap(CLAIM_CATEGORIES, (category) => (
                           <option key={category.value} value={category.value} style={{ color: 'white', backgroundColor: '#1e293b' }}>
                             {category.label}
                           </option>
@@ -646,7 +648,7 @@ export default function UserDashboard() {
                         )}
                       </div>
                       <div className="space-y-2">
-                        {result.evidence.map((evidence: any, idx: number) => (
+                        {safeMap(result.evidence, (evidence: any, idx: number) => (
                           <div key={idx} className={`p-3 rounded-lg border ${darkMode ? 'bg-secondary/50 border-white/10' : 'bg-gray-100 border-gray-200'}`}>
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
@@ -729,7 +731,7 @@ export default function UserDashboard() {
                         Start a conversation with the AI assistant...
                       </div>
                     ) : (
-                      chatMessages.map((msg, idx) => (
+                      safeMap(chatMessages, (msg, idx) => (
                         <div
                           key={idx}
                           className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -868,7 +870,7 @@ export default function UserDashboard() {
                       No recent claims
                     </p>
                   ) : (
-                    trendingClaims.slice(0, 5).map((claim) => (
+                    safeMap(trendingClaims.slice(0, 5), (claim) => (
                       <div 
                         key={claim._id} 
                         className={`p-3 rounded-lg transition-colors cursor-pointer ${

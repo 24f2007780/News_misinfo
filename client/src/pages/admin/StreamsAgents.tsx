@@ -14,6 +14,7 @@ import {
   Zap
 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { safeMap } from '@/utils/arrayUtils';
 
 export default function StreamsAgents() {
   const navigate = useNavigate()
@@ -108,7 +109,7 @@ export default function StreamsAgents() {
 
       {/* Agent Status Board */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Object.entries(agents).map(([name, agent]: [string, any]) => (
+        { safeMap(Object.entries(agents), ([name, agent]: [string, any]) => (
           <Card 
             key={name} 
             className={`bg-card/50 backdrop-blur-sm border-white/10 ${

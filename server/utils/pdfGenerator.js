@@ -211,7 +211,7 @@ class PDFGenerator {
             🔍 Detailed Claims Analysis
         </div>
         <div class="section-content">
-            ${claims.map(claim => `
+            ${safeMap(claims, claim => `
                 <div class="claim-item ${claim.verdict || 'unverified'}">
                     <div class="claim-text">${claim.text}</div>
                     <div class="claim-meta">
@@ -272,9 +272,9 @@ class PDFGenerator {
       categories[claim.category] = (categories[claim.category] || 0) + 1;
     });
 
-    return Object.entries(categories)
+    return SafeMap(Object.entries(categories)
       .sort(([,a], [,b]) => b - a)
-      .map(([category, count]) => `
+      ,([category, count]) => `
         <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee;">
           <span class="category-badge">${category}</span>
           <strong>${count} claims</strong>
@@ -298,10 +298,10 @@ class PDFGenerator {
       languages[claim.language] = (languages[claim.language] || 0) + 1;
     });
     
-    return Object.entries(languages)
+    return SafeMap(Object.entries(languages)
       .sort(([,a], [,b]) => b - a)
       .slice(0, 3)
-      .map(([lang, count]) => `${lang.toUpperCase()}: ${count}`)
+      ,([lang, count]) => `${lang.toUpperCase()}: ${count}`)
       .join(', ');
   }
 

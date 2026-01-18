@@ -20,6 +20,7 @@ import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import Badge from '@/components/ui/Badge'
+import { safeMap } from '@/utils/arrayUtils';
 
 export default function IngestorAgent() {
   const navigate = useNavigate()
@@ -473,7 +474,7 @@ export default function IngestorAgent() {
               <div className="space-y-3">
                 <h4 className="font-medium text-white">Selected Files:</h4>
                 <div className="space-y-2">
-                  {Array.from(selectedFiles).map((file, idx) => (
+                  {safeMap(Array.from(selectedFiles),(file, idx) => (
                     <div key={idx} className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
                       <div className="flex items-center space-x-3">
                         <FileText className="w-4 h-4 text-gray-400" />
@@ -510,7 +511,7 @@ export default function IngestorAgent() {
                 </h4>
                 
                 <div className="space-y-4">
-                  {extractedData.map((fileData, idx) => (
+                  {safeMap(extractedData, (fileData, idx) => (
                     <Card key={idx} className="bg-secondary/30 border-white/10">
                       <CardHeader className="pb-3">
                         <CardTitle className="text-base flex items-center justify-between">
@@ -619,7 +620,7 @@ export default function IngestorAgent() {
                               Identified Claims ({fileData.extractedClaims.length})
                             </p>
                             <div className="space-y-2">
-                              {fileData.extractedClaims.slice(0, 3).map((claim: any, claimIdx: number) => (
+                              {safeMap(fileData.extractedClaims.slice(0, 3), (claim: any, claimIdx: number) => (
                                 <div key={claimIdx} className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
                                   <div className="flex items-start justify-between mb-2">
                                     <p className="text-sm text-white font-medium">
@@ -763,7 +764,7 @@ export default function IngestorAgent() {
           <CardContent>
             {ingestionJobs.length > 0 ? (
               <div className="space-y-3">
-                {ingestionJobs.map((job) => (
+                {safeMap(ingestionJobs, (job) => (
                   <div key={job.id} className="p-4 bg-secondary/30 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-3">

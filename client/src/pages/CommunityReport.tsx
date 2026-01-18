@@ -22,6 +22,7 @@ import Input from '@/components/ui/Input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import Badge from '@/components/ui/Badge'
 import { formatRelativeTime } from '@/lib/utils'
+import { safeMap } from '@/utils/arrayUtils'
 
 export default function CommunityReport() {
   const { user } = useAuthStore()
@@ -144,6 +145,7 @@ export default function CommunityReport() {
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">Community Report</h1>
           <p className="text-gray-400">Collaborative fact-checking powered by community wisdom</p>
+        </div>
         </div>
 
         {/* Stats Overview */}
@@ -277,7 +279,7 @@ export default function CommunityReport() {
 
             {/* Claims List */}
             <div className="space-y-4">
-              {claims.map((claim) => (
+                {safeMap(claims, (claim) => (
                 <Card key={claim._id} className="bg-card/50 backdrop-blur-sm border-white/10">
                   <CardContent className="pt-6">
                     <div className="space-y-4">
@@ -461,7 +463,7 @@ export default function CommunityReport() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {leaderboard.map((contributor, idx) => (
+                {safeMap(leaderboard, (contributor, idx) => (
                   <div key={contributor._id} className="flex items-center justify-between p-4 bg-secondary/20 rounded-lg">
                     <div className="flex items-center space-x-3">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
@@ -502,7 +504,7 @@ export default function CommunityReport() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {userVotes.map((vote) => (
+                {safeMap(userVotes, (vote) => (
                   <div key={vote._id} className="p-4 bg-secondary/20 rounded-lg">
                     <div className="flex items-start justify-between mb-2">
                       <p className="text-white font-medium flex-1">{vote.claimId?.text}</p>
@@ -536,7 +538,7 @@ export default function CommunityReport() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {stats.voteDistribution?.map((item: any) => (
+                  {safeMap(stats.voteDistribution, (item: any) => (
                     <div key={item._id} className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         {getVerdictIcon(item._id)}
@@ -560,7 +562,7 @@ export default function CommunityReport() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-    {(Array.isArray(stats.topContributors) ? stats.topContributors : []).slice(0, 5).map((contributor: any, idx: number) => (
+                  {(Array.isArray(stats.topContributors) ? stats.topContributors : []).slice(0, 5).map((contributor: any, idx: number) => (
                     <div key={contributor._id} className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         <span className="text-primary font-bold">#{idx + 1}</span>
@@ -578,6 +580,5 @@ export default function CommunityReport() {
           </div>
         )}
       </div>
-    </div>
   )
 }

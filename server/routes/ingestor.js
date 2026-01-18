@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { authenticateToken } = require('./auth');
+const arrayUtils = require('./arrayUtils'); // Import arrayUtils
 
 const router = express.Router();
 
@@ -205,7 +206,7 @@ router.post('/upload', (req, res, next) => {
     }
 
     console.log('📋 Processing uploaded files...');
-    const uploadedFiles = req.files.map(file => {
+    const uploadedFiles = safeMap(req.files, (file) => {
       console.log(`📄 File: ${file.originalname} (${file.size} bytes, ${file.mimetype})`);
       return {
         originalName: file.originalname,
@@ -290,7 +291,7 @@ router.post('/upload', (req, res, next) => {
     const response = { 
       success: true,
       message: `Uploaded ${uploadedFiles.length} files successfully`,
-      files: uploadedFiles.map(f => ({ name: f.originalName, size: f.size })),
+      files: safeMap(uploadedFiles, (f) => ({ name: f.originalName, size: f.size })),
       extractedData: extractedData,
       jobId: job.id
     };
@@ -474,7 +475,7 @@ function extractClaimsFromText(text, filename = '') {
     console.log('⚠️ No pattern matches found, extracting potential claim sentences...');
     
     const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 20);
-    const potentialClaims = (Array.isArray(sentences) ? sentences : []).slice(0, 5).map(sentence => {
+    const potentialClaims = arrayUtils.safeMap(sentences, sentence => {
       const cleanSentence = sentence.trim();
       return {
         text: cleanSentence.length > 200 ? cleanSentence.substring(0, 200) + '...' : cleanSentence,

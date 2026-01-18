@@ -8,6 +8,7 @@ import Input from '@/components/ui/Input'
 import { Search, Globe, RefreshCw, BarChart3, Clock } from 'lucide-react'
 import { getVerdictBadgeColor, formatRelativeTime } from '@/lib/utils'
 import toast from 'react-hot-toast'
+import { safeMap } from '@/utils/arrayUtils';
 
 export default function ClaimIntelligence() {
   const { t } = useLanguage()
@@ -203,7 +204,7 @@ export default function ClaimIntelligence() {
         {/* Claims List */}
         <div className="lg:col-span-2 space-y-3">
           <h2 className="text-xl font-semibold text-white">{t('claimsTitle')}</h2>
-          {claims.map((claim) => (
+          {safeMap(claims, (claim) => (
             <Card
               key={claim._id}
               className="bg-card/50 backdrop-blur-sm border-white/10 hover:border-primary/30 transition-colors cursor-pointer"
@@ -285,7 +286,7 @@ export default function ClaimIntelligence() {
         {/* Clusters Sidebar */}
         <div className="space-y-3">
           <h2 className="text-xl font-semibold text-white">{t('activeClustersTitle')}</h2>
-          {clusters.slice(0, 10).map((cluster) => (
+          {safeMap(clusters.slice(0, 10), (cluster) => (
             <Card
               key={cluster._id}
               className="bg-card/50 backdrop-blur-sm border-white/10 hover:border-primary/30 transition-colors"
@@ -397,7 +398,7 @@ export default function ClaimIntelligence() {
                 <div>
                   <h4 className="font-semibold mb-2">Evidence Sources</h4>
                   <div className="space-y-2">
-                    {selectedClaim.evidence.map((evidence: any, idx: number) => (
+                    {safeMap(selectedClaim.evidence, (evidence: any, idx: number) => (
                       <div key={idx} className="p-3 bg-secondary/50 rounded-lg border border-white/10">
                         <div className="flex items-start justify-between mb-2">
                           <p className="text-sm font-medium">{evidence.title}</p>

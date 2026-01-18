@@ -58,7 +58,7 @@ class ComprehensiveVerificationService {
         pipelineResults.steps.data_collection = {
           completed: true,
           evidence_count: evidenceData.length,
-          sources: [...new Set(evidenceData.map((e) => e.source))],
+          sources: [...new Set(safeMap(evidenceData, (e) => e.source))],
         };
 
         // Step 2: Data Preprocessing
@@ -440,7 +440,7 @@ Respond with ONLY valid JSON:
       pipeline: {
         steps_completed: Object.keys(pipelineResults.steps).length,
         total_time_ms: Date.now() - pipelineResults.startTime,
-        evidence_sources: [...new Set(evidence.map((e) => e.source))],
+        evidence_sources: [...new Set(safeMap(evidence, (e) => e.source))],
         verification_method: mlResult.source || "ml-analysis",
       },
 

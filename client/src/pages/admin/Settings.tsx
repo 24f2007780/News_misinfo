@@ -21,6 +21,7 @@ import {
 import Button from '@/components/ui/Button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import Badge from '@/components/ui/Badge'
+import { safeMap } from '@/utils/arrayUtils'
 
 const LANGUAGES = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -192,7 +193,7 @@ export default function Settings() {
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-3">{t('systemLanguage')}</label>
               <div className="grid grid-cols-1 gap-3">
-                {LANGUAGES.map((lang) => (
+                {safeMap(LANGUAGES, (lang) => (
                   <label key={lang.code} className="flex items-center space-x-3 cursor-pointer">
                     <input
                       type="radio"
@@ -231,7 +232,7 @@ export default function Settings() {
                 onChange={(e) => updateSetting('primaryModel', e.target.value)}
                 className="w-full px-3 py-2 bg-background border border-input rounded-lg text-white"
               >
-                {MODEL_OPTIONS.map((model) => (
+                {safeMap(MODEL_OPTIONS, (model) => (
                   <option key={model.id} value={model.id} style={{ color: 'white', backgroundColor: '#1e293b' }}>
                     {model.name} - {model.description}
                   </option>
@@ -246,7 +247,7 @@ export default function Settings() {
                 onChange={(e) => updateSetting('fallbackModel', e.target.value)}
                 className="w-full px-3 py-2 bg-background border border-input rounded-lg text-white"
               >
-                {MODEL_OPTIONS.map((model) => (
+                {safeMap(MODEL_OPTIONS, (model) => (
                   <option key={model.id} value={model.id} style={{ color: 'white', backgroundColor: '#1e293b' }}>
                     {model.name} - {model.description}
                   </option>

@@ -6,6 +6,7 @@ import Badge from '@/components/ui/Badge'
 import { Shield, FileText, AlertTriangle, Activity } from 'lucide-react'
 import { formatDateTime } from '@/lib/utils'
 import toast from 'react-hot-toast'
+import { safeMap } from '@/utils/arrayUtils';
 
 export default function Governance() {
   const [auditLogs, setAuditLogs] = useState<any[]>([])
@@ -125,7 +126,7 @@ export default function Governance() {
               <div>
                 <h3 className="font-semibold text-white mb-3">Category Distribution</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {Object.entries(biasReport.categoryDistribution || {}).map(([category, count]: [string, any]) => (
+                  {safeMap(Object.entries(biasReport.categoryDistribution || {}), ([category, count]: [string, any]) => (
                     <div key={category} className="p-3 bg-secondary/30 rounded-lg">
                       <p className="text-xs text-gray-400 mb-1">{category}</p>
                       <p className="text-xl font-bold text-white">{count}</p>
@@ -138,7 +139,7 @@ export default function Governance() {
               <div>
                 <h3 className="font-semibold text-white mb-3">Verdict Distribution</h3>
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                  {Object.entries(biasReport.verdictDistribution || {}).map(([verdict, count]: [string, any]) => (
+                  {safeMap(Object.entries(biasReport.verdictDistribution || {}), ([verdict, count]: [string, any]) => (
                     <div key={verdict} className="p-3 bg-secondary/30 rounded-lg">
                       <p className="text-xs text-gray-400 mb-1">{verdict}</p>
                       <p className="text-xl font-bold text-white">{count}</p>
@@ -151,7 +152,7 @@ export default function Governance() {
               <div>
                 <h3 className="font-semibold text-white mb-3">Language Distribution</h3>
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-                  {Object.entries(biasReport.languageBias || {}).map(([lang, count]: [string, any]) => (
+                  {safeMap(Object.entries(biasReport.languageBias || {}), ([lang, count]: [string, any]) => (
                     <div key={lang} className="p-3 bg-secondary/30 rounded-lg">
                       <p className="text-xs text-gray-400 mb-1">{lang.toUpperCase()}</p>
                       <p className="text-xl font-bold text-white">{count}</p>
@@ -165,7 +166,7 @@ export default function Governance() {
                 <div>
                   <h3 className="font-semibold text-white mb-3">Recommendations</h3>
                   <div className="space-y-2">
-                    {biasReport.recommendations.map((rec: any, idx: number) => (
+                    {safeMap(biasReport.recommendations, (rec: any, idx: number) => (
                       <div
                         key={idx}
                         className={`p-4 rounded-lg border ${
@@ -206,7 +207,7 @@ export default function Governance() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2 max-h-96 overflow-y-auto">
-            {auditLogs.map((log) => (
+            {safeMap(auditLogs, (log) => (
               <div
                 key={log._id}
                 className="p-3 bg-secondary/30 rounded-lg border border-white/5 hover:bg-secondary/50 transition-colors"

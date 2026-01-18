@@ -21,6 +21,8 @@ import {
 } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
+import { safeMap } from '@/utils/arrayUtils';
+
 
 const getMenuItems = (t: (key: string) => string) => [
   { icon: LayoutDashboard, label: t('overview'), path: '/admin' },
@@ -157,7 +159,7 @@ export default function AdminDashboard() {
             : 'border-white/10 bg-black/20'
         }`}>
           <nav className="p-4 space-y-2">
-            {menuItems.map((item: any) => {
+            {safeMap(menuItems, (item: any) => {
               const Icon = item.icon
               const isActive = location.pathname === item.path
               

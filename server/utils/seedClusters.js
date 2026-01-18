@@ -1,5 +1,6 @@
 const Cluster = require('../models/Cluster');
 const Claim = require('../models/Claim');
+import { safeMap } from '@/utils/arrayUtils';
 
 const sampleClusters = [
   {
@@ -330,7 +331,7 @@ async function seedClusters() {
     // Create sample claims and associate with clusters
     console.log('🌱 Seeding sample claims...');
     
-    const claimsWithClusters = sampleClaims.map((claim, index) => ({
+    const claimsWithClusters = safeMap(sampleClaims, (claim, index) => ({
       ...claim,
       clusterId: createdClusters[Math.floor(index / 2)]._id, // Associate 2 claims per cluster
       createdAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000), // Random date within last week
@@ -358,7 +359,7 @@ async function seedClusters() {
     // Update cluster references
     for (let i = 0; i < createdClusters.length; i++) {
       const clusterClaims = await Claim.find({ clusterId: createdClusters[i]._id });
-      createdClusters[i].claims = clusterClaims.map(c => c._id);
+      createdClusters[i].claims = safeMap(clusterClaims, c => c._id);
       await createdClusters[i].save();
     }
     
