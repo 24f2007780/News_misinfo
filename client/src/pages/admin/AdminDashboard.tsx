@@ -3,7 +3,7 @@ import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '@/store/authStore'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useTheme } from '@/contexts/ThemeContext'
-import { initSocket, subscribeAdmin } from '@/lib/socket'
+import { initSocket } from '@/lib/socket'
 import { 
   LayoutDashboard, 
   Radio, 
@@ -49,13 +49,23 @@ export default function AdminDashboard() {
     }
 
     const socket = initSocket(user.id)
-    subscribeAdmin()
-
+    // Set up event listeners directly
+    socket?.on('daily-brief', (data) => {
+      console.log('Daily brief:', data)
+      // Handle daily brief data
+    })
+    socket?.on('spike-alert', (data) => {
+      console.log('Spike alert:', data)
+      // Handle spike alert
+    })
     return () => {
+      // Clean up event listeners
       socket?.off('daily-brief')
       socket?.off('spike-alert')
       socket?.off('claims-extracted')
       socket?.off('claim-verified')
+      // Disconnect socket when component unmounts
+      socket?.disconnect()
     }
   }, [user, navigate])
 

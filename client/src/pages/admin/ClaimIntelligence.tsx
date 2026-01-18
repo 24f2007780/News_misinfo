@@ -267,8 +267,8 @@ export default function ClaimIntelligence() {
 
                 {claim.entities && claim.entities.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-2">
-                    {claim.entities.slice(0, 5).map((entity: any, idx: number) => (
-                      <span
+                      {(Array.isArray(claim.entities) ? claim.entities : []).slice(0, 5).map((entity: any, idx: number) => (
+                        <span
                         key={idx}
                         className="text-xs px-2 py-1 bg-secondary/50 rounded"
                       >

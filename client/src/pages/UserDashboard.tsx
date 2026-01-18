@@ -863,17 +863,30 @@ export default function UserDashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {trendingClaims.length === 0 ? (
-                    <p className={`text-sm ${darkMode ? 'text-muted-foreground' : 'text-gray-500'}`}>No recent claims</p>
+                  {!Array.isArray(trendingClaims) || trendingClaims.length === 0 ? (
+                    <p className={`text-sm ${darkMode ? 'text-muted-foreground' : 'text-gray-500'}`}>
+                      No recent claims
+                    </p>
                   ) : (
                     trendingClaims.slice(0, 5).map((claim) => (
-                      <div key={claim._id} className={`p-3 rounded-lg transition-colors cursor-pointer ${darkMode ? 'bg-secondary/50 hover:bg-secondary/70' : 'bg-gray-100 hover:bg-gray-200'}`}>
-                        <p className={`text-sm font-medium line-clamp-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>{claim.text}</p>
+                      <div 
+                        key={claim._id} 
+                        className={`p-3 rounded-lg transition-colors cursor-pointer ${
+                          darkMode ? 'bg-secondary/50 hover:bg-secondary/70' : 'bg-gray-100 hover:bg-gray-200'
+                        }`}
+                      >
+                        <p className={`text-sm font-medium line-clamp-2 ${
+                          darkMode ? 'text-white' : 'text-gray-900'
+                        }`}>
+                          {claim.text}
+                        </p>
                         <div className="flex items-center justify-between mt-2">
                           <Badge className={getVerdictBadgeColor(claim.verdict)}>
                             {claim.verdict}
                           </Badge>
-                          <span className={`text-xs ${darkMode ? 'text-muted-foreground' : 'text-gray-500'}`}>
+                          <span className={`text-xs ${
+                            darkMode ? 'text-muted-foreground' : 'text-gray-500'
+                          }`}>
                             {formatRelativeTime(claim.createdAt)}
                           </span>
                         </div>
@@ -881,6 +894,7 @@ export default function UserDashboard() {
                     ))
                   )}
                 </div>
+
               </CardContent>
             </Card>
           </div>

@@ -560,7 +560,7 @@ export default function CommunityReport() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {stats.topContributors?.slice(0, 5).map((contributor: any, idx: number) => (
+    {(Array.isArray(stats.topContributors) ? stats.topContributors : []).slice(0, 5).map((contributor: any, idx: number) => (
                     <div key={contributor._id} className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         <span className="text-primary font-bold">#{idx + 1}</span>

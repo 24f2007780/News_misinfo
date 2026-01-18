@@ -38,15 +38,22 @@ const seedCommunityVotes = require('./utils/seedCommunityVotes');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    methods: ['GET', 'POST']
-  }
-});
+// In server/index.js
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://news-misinfo.onrender.com', 'https://www.news-misinfo.onrender.com']
+    : 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST']
+}
 
-// Middleware
-app.use(cors());
+app.use(cors(corsOptions))
+
+const io = socketIo(server, {
+  cors: corsOptions,
+  path: '/socket.io/'
+})
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -241,7 +241,7 @@ export default function Overview() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {topClusters.slice(0, 5).map((cluster, idx) => (
+              {(Array.isArray(topClusters) ? topClusters : []).slice(0, 5).map((cluster, idx) => (
               <div 
                 key={cluster._id} 
                 className="p-4 bg-secondary/30 rounded-lg hover:bg-secondary/50 transition-colors border border-white/5"
@@ -285,7 +285,7 @@ export default function Overview() {
         <CardContent>
           {geoData?.topCountries && geoData.topCountries.length > 0 ? (
             <div className="space-y-3">
-              {geoData.topCountries.slice(0, 5).map((country: any, idx: number) => (
+              {(Array.isArray(geoData?.topCountries) ? geoData.topCountries : []).slice(0, 5).map((country: any, idx: number) => (
                 <div key={country.country} className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
                   <div className="flex items-center space-x-3">
                     <span className="text-lg font-bold text-primary">#{idx + 1}</span>

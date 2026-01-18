@@ -474,7 +474,7 @@ function extractClaimsFromText(text, filename = '') {
     console.log('⚠️ No pattern matches found, extracting potential claim sentences...');
     
     const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 20);
-    const potentialClaims = sentences.slice(0, 5).map(sentence => {
+    const potentialClaims = (Array.isArray(sentences) ? sentences : []).slice(0, 5).map(sentence => {
       const cleanSentence = sentence.trim();
       return {
         text: cleanSentence.length > 200 ? cleanSentence.substring(0, 200) + '...' : cleanSentence,
