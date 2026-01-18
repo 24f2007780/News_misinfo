@@ -23,7 +23,7 @@ router.get('/recent', async (req, res) => {
     console.log(`📋 Database query completed. Found ${recentClaims.length} claims`);
     
     if (recentClaims.length > 0) {
-      console.log('Recent claims details:', recentClaims.map(c => ({
+      console.log('Recent claims details:', safeMap(recentClaims, c => ({
         id: c._id,
         text: c.text?.substring(0, 50) + '...',
         verdict: c.verdict,
@@ -258,7 +258,7 @@ router.post('/quick-verify', async (req, res) => {
           platform: 'web'
         },
         explanation: verificationResult ? verificationResult.explanation : undefined,
-        evidence: verificationResult ? verificationResult.evidence.map(e => ({
+        evidence: verificationResult ? safeMap(verificationResult.evidence, e => ({
           source: e.source,
           url: e.url,
           title: e.title,
@@ -277,7 +277,7 @@ router.post('/quick-verify', async (req, res) => {
           lastScraped: new Date(),
           sitesSearched: verificationResult.scrapingSummary.sitesSearched,
           resultsFound: verificationResult.scrapingSummary.resultsFound,
-          topRelevanceScore: Math.max(...verificationResult.evidence.map(e => e.relevanceScore || 0)),
+          topRelevanceScore: Math.max(safeMap(...verificationResult.evidence, e => e.relevanceScore || 0)),
           scrapingEnabled: true,
           scrapingHistory: [{
             timestamp: new Date(),
@@ -329,7 +329,7 @@ router.post('/quick-verify', async (req, res) => {
             lastScraped: new Date(),
             sitesSearched: verificationResult.scrapingSummary.sitesSearched,
             resultsFound: verificationResult.scrapingSummary.resultsFound,
-            topRelevanceScore: safeMap(Math.max(...verificationResult.evidence.map(e => e.relevanceScore || 0)),
+            topRelevanceScore: Math.max(safeMap(...verificationResult.evidence, e => e.relevanceScore || 0)),
             scrapingEnabled: true,
             scrapingHistory: [
               ...(claimToUpdate.webScrapingData?.scrapingHistory || []),
@@ -474,7 +474,7 @@ router.post('/:id/scrape', authenticateToken, async (req, res) => {
     const webScrapingResult = await WebScrapingService.verifyClaim(claim.text);
     
     // Update claim with new web scraping data
-    claim.evidence = [...(claim.evidence || []), ...webScrapingResult.evidence.map(e => ({
+    claim.evidence = safeMap([...(claim.evidence || []), ...webScrapingResult.evidence, e => ({
       source: e.source,
       url: e.url,
       title: e.title,
@@ -488,14 +488,14 @@ router.post('/:id/scrape', authenticateToken, async (req, res) => {
       scrapedAt: e.scrapedAt,
       factCheckingSite: e.source,
       content: e.content
-    }))];
+    })]);
     
     // Update web scraping metadata
     claim.webScrapingData = {
       lastScraped: new Date(),
       sitesSearched: webScrapingResult.scrapingSummary.sitesSearched,
       resultsFound: webScrapingResult.scrapingSummary.resultsFound,
-      topRelevanceScore: Math.max(...webScrapingResult.evidence.map(e => e.relevanceScore || 0)),
+      topRelevanceScore: Math.max(safeMap(...webScrapingResult.evidence, e => e.relevanceScore || 0)),
       scrapingEnabled: true,
       scrapingHistory: [
         ...(claim.webScrapingData?.scrapingHistory || []),
