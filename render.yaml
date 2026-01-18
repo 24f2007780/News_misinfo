@@ -1,11 +1,11 @@
 services:
   - type: web
-    name: misinformation-platform
-    env: node  # Changed from python to node
+    name: news-misinfo
+    env: node
     buildCommand: |
       npm install
       cd client && npm install && npm run build
-    startCommand: node server/index.js  # Updated to use index.js
+    startCommand: node server/index.js
     staticPublishPath: "./client/dist"
     envVars:
       - key: GEMINI_API_KEY
@@ -16,5 +16,14 @@ services:
         value: "mongodb+srv://yashvi2905_db_user:${MONGO_PASSWORD}@misinfo.lp5yt9w.mongodb.net/?retryWrites=true&w=majority&appName=misinfo"
       - key: NODE_ENV
         value: "production"
+      - key: NODE_ENV
+        value: production
       - key: PORT
-        value: "10000"
+        value: 10000
+      - key: MONGODB_URI
+        fromDatabase:
+          name: mongodb-atlas
+          property: connectionString
+      - key: CLIENT_URL
+        value: https://news-misinfo.onrender.com
+    healthCheckPath: /health

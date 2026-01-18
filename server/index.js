@@ -53,7 +53,16 @@ app.use(express.urlencoded({ extended: true }));
 // Make io accessible to routes
 app.set('io', io);
 
-
+// Serve static files from the React app
+if (process.env.NODE_ENV === 'production') {
+  const path = require('path');
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+  
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+  });
+}
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/claims', claimRoutes);
